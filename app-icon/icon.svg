@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#6CC4FF"/><stop offset="0.5" stop-color="#2A86FF"/><stop offset="1" stop-color="#1757E0"/>
+  </linearGradient>
+  <radialGradient id="glow" cx="0.3" cy="0.1" r="0.8">
+    <stop offset="0" stop-color="#fff" stop-opacity="0.35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9EEFA"/>
+  </linearGradient>
+  <linearGradient id="qg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFB340"/><stop offset="1" stop-color="#FF7A1A"/>
+  </linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D6DEF5"/>
+  </linearGradient>
+  <linearGradient id="phone" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#3A3F4B"/><stop offset="1" stop-color="#14161C"/>
+  </linearGradient>
+  <linearGradient id="scr" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#6CC4FF"/><stop offset="1" stop-color="#1F6FF2"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="150%">
+    <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#0A2A70" flood-opacity="0.35"/>
+  </filter>
+  <filter id="shs" x="-30%" y="-30%" width="160%" height="170%">
+    <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0A2A70" flood-opacity="0.35"/>
+  </filter>
+  <pattern id="qs" width="58" height="58" patternUnits="userSpaceOnUse" patternTransform="rotate(-12)">
+        <text x="9" y="27" font-family="Inter" font-weight="800" font-size="24" fill="#fff" fill-opacity="0.28">?</text>
+    <text x="38" y="55" font-family="Inter" font-weight="800" font-size="20" fill="#fff" fill-opacity="0.28">?</text>
+  </pattern>
+  <linearGradient id="qfill" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFB340"/><stop offset="1" stop-color="#FF7A1A"/>
+  </linearGradient>
+  <mask id="qm" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+    <path d="M 425 405 C 425 305, 605 295, 607 398 C 609 478, 512 490, 512 575 L 512 610" stroke="#fff" stroke-width="108" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </mask>
+  <linearGradient id="hl" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#fff" stop-opacity="0.45"/><stop offset="0.5" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#bg)"/>
+<rect width="1024" height="1024" fill="url(#glow)"/>
+<g transform="translate(512 512) scale(1.2) translate(-512 -556)">
+
+<!-- Buch -->
+<defs>
+  <linearGradient id="gutL" x1="512" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#5A6AA8" stop-opacity="0.35"/><stop offset="1" stop-color="#5A6AA8" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="gutR" x1="512" y1="0" x2="624" y2="0" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#5A6AA8" stop-opacity="0.35"/><stop offset="1" stop-color="#5A6AA8" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="cover" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1E5BD0"/><stop offset="1" stop-color="#123C9E"/>
+  </linearGradient>
+  <clipPath id="cpL"><path d="M176 262 C 280 224, 430 226, 512 274 L 512 770 C 430 724, 280 722, 176 752 Z"/></clipPath>
+  <clipPath id="cpR"><path d="M512 274 C 594 226, 744 224, 848 262 L 848 752 C 744 722, 594 724, 512 770 Z"/></clipPath>
+</defs>
+<g filter="url(#sh)">
+  <!-- Einband -->
+  <path d="M150 280 C 270 246, 430 250, 512 296 C 594 250, 754 246, 874 280 L 874 790 C 754 760, 594 764, 512 806 C 430 764, 270 760, 150 790 Z" fill="url(#cover)"/>
+  <!-- Seitenstapel -->
+  <g fill="#D3DAEE" stroke="#BAC4E0" stroke-width="2">
+    <path d="M176 262 C 280 224, 430 226, 512 274 L 512 770 C 430 724, 280 722, 176 752 Z" transform="translate(-14 26)"/><path d="M512 274 C 594 226, 744 224, 848 262 L 848 752 C 744 722, 594 724, 512 770 Z" transform="translate(14 26)"/>
+  </g>
+  <g fill="#E3E8F6" stroke="#C6CFE8" stroke-width="2">
+    <path d="M176 262 C 280 224, 430 226, 512 274 L 512 770 C 430 724, 280 722, 176 752 Z" transform="translate(-9 17)"/><path d="M512 274 C 594 226, 744 224, 848 262 L 848 752 C 744 722, 594 724, 512 770 Z" transform="translate(9 17)"/>
+  </g>
+  <g fill="#EEF1FA" stroke="#CFD7EE" stroke-width="2">
+    <path d="M176 262 C 280 224, 430 226, 512 274 L 512 770 C 430 724, 280 722, 176 752 Z" transform="translate(-4 8)"/><path d="M512 274 C 594 226, 744 224, 848 262 L 848 752 C 744 722, 594 724, 512 770 Z" transform="translate(4 8)"/>
+  </g>
+  <path d="M176 262 C 280 224, 430 226, 512 274 L 512 770 C 430 724, 280 722, 176 752 Z" fill="url(#page)"/>
+  <path d="M512 274 C 594 226, 744 224, 848 262 L 848 752 C 744 722, 594 724, 512 770 Z" fill="url(#page)"/>
+</g>
+<rect x="380" y="200" width="132" height="620" fill="url(#gutL)" clip-path="url(#cpL)"/>
+<rect x="512" y="200" width="132" height="620" fill="url(#gutR)" clip-path="url(#cpR)"/>
+<path d="M512 274 L 512 770" stroke="#A9B4D6" stroke-width="3"/>
+
+<g stroke="#C3CDE6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M222 350 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M222 420 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M222 490 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M222 560 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M222 630 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M222 700 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M574 350 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M574 420 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M574 490 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M574 560 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M574 630 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+<path d="M574 700 q 11.0 -7 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0 t 22 0"/>
+</g>
+
+<!-- Fragezeichen -->
+<g filter="url(#sh)">
+  <rect width="1024" height="1024" fill="url(#qfill)" mask="url(#qm)"/>
+  <rect width="1024" height="1024" fill="url(#qs)" mask="url(#qm)"/>
+</g>
+<rect width="1024" height="1024" fill="url(#hl)" mask="url(#qm)" opacity="0.8"/>
+<g filter="url(#shs)">
+  <circle cx="512" cy="866" r="54" fill="url(#qfill)"/>
+</g>
+<ellipse cx="512" cy="838" rx="32" ry="15" fill="#fff" opacity="0.35"/>
+
+<!-- iPhone -->
+<g transform="rotate(14 742 470)" filter="url(#shs)">
+  <rect x="680" y="360" width="124" height="220" rx="28" fill="url(#phone)"/>
+  <rect x="688" y="368" width="108" height="204" rx="21" fill="url(#scr)"/>
+  <rect x="722" y="378" width="40" height="13" rx="6.5" fill="#0E0F13"/>
+  <text x="742" y="510" text-anchor="middle" font-family="Inter" font-weight="800" font-size="92" fill="#fff">?</text>
+</g>
+
+<!-- Zahnrad -->
+<defs>
+  <linearGradient id="gw" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#C8D0E4"/>
+  </linearGradient>
+  <linearGradient id="gr" x1="0" y1="1" x2="0" y2="0">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D4DBEC"/>
+  </linearGradient>
+  <linearGradient id="gc" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#6CC4FF"/><stop offset="1" stop-color="#1F6FF2"/>
+  </linearGradient>
+</defs>
+<g filter="url(#shs)">
+  <path d="M239.9,686.6 L241.8,666.3 L258.2,666.3 L260.1,686.6 L283.0,692.7 L294.8,676.1 L308.9,684.3 L300.4,702.8 L317.2,719.6 L335.7,711.1 L343.9,725.2 L327.3,737.0 L333.4,759.9 L353.7,761.8 L353.7,778.2 L333.4,780.1 L327.3,803.0 L343.9,814.8 L335.7,828.9 L317.2,820.4 L300.4,837.2 L308.9,855.7 L294.8,863.9 L283.0,847.3 L260.1,853.4 L258.2,873.7 L241.8,873.7 L239.9,853.4 L217.0,847.3 L205.2,863.9 L191.1,855.7 L199.6,837.2 L182.8,820.4 L164.3,828.9 L156.1,814.8 L172.7,803.0 L166.6,780.1 L146.3,778.2 L146.3,761.8 L166.6,759.9 L172.7,737.0 L156.1,725.2 L164.3,711.1 L182.8,719.6 L199.6,702.8 L191.1,684.3 L205.2,676.1 L217.0,692.7 Z" fill="url(#gw)" stroke="url(#gw)" stroke-width="14" stroke-linejoin="round"/>
+</g>
+<circle cx="250" cy="770" r="62" fill="url(#gr)"/>
+<circle cx="250" cy="770" r="62" fill="none" stroke="#B9C3DC" stroke-width="2"/>
+<circle cx="250" cy="770" r="38" fill="url(#gc)"/>
+<ellipse cx="250" cy="752" rx="22" ry="10" fill="#fff" opacity="0.35"/>
+</g>
+</svg>

@@ -1,0 +1,288 @@
+/* Farben nach 60-30-10: Creme / Salbei / Blau. Immer hell. */
+:root {
+  color-scheme: light only;
+  --bg: #FBF7F0;          /* 60 % warmes Creme */
+  --flaeche: #FFFFFF;     /* Karten */
+  --salbei: #DCE8E0;      /* 30 % Nebenfarbe */
+  --salbei-dunkel: #2F4A3C;
+  --akzent: #1F5FD1;      /* 10 % Knöpfe */
+  --akzent-druck: #174AA6;
+  --text: #1C1C1E;
+  --text-2: #3C3C43;
+  --rand: #E6E0D4;
+  --schatten: 0 1px 2px rgba(40, 30, 10, .06), 0 6px 18px rgba(40, 30, 10, .08);
+  --radius: 22px;
+  --rand-seite: max(16px, env(safe-area-inset-left));
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  font-size: 22px;
+  line-height: 1.4;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior: none;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 16px) var(--rand-seite) calc(env(safe-area-inset-bottom) + 32px);
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 8px 0 8px;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+h2 {
+  font-size: 26px;
+  line-height: 1.25;
+  margin: 28px 0 12px;
+}
+
+p { margin: 0 0 16px; }
+
+.unterzeile {
+  color: var(--text-2);
+  margin-bottom: 24px;
+}
+
+button { font: inherit; color: inherit; }
+
+/* ---------- Knöpfe ---------- */
+.knopf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 64px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--akzent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 22px;
+  cursor: pointer;
+  text-align: center;
+}
+.knopf:active { background: var(--akzent-druck); transform: scale(.98); }
+
+.knopf.zweit {
+  background: var(--flaeche);
+  color: var(--akzent);
+  border: 2px solid var(--akzent);
+}
+.knopf.zweit:active { background: #EEF3FC; }
+
+.zurueck {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 64px;
+  min-width: 140px;
+  padding: 10px 24px 10px 16px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--akzent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.zurueck:active { background: var(--akzent-druck); transform: scale(.98); }
+.zurueck svg { width: 28px; height: 28px; flex: none; }
+
+/* Leiste oben bleibt beim Scrollen sichtbar */
+.kopf {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  margin: calc(-1 * (env(safe-area-inset-top) + 16px)) calc(-1 * var(--rand-seite)) 0;
+  padding: calc(env(safe-area-inset-top) + 12px) var(--rand-seite) 8px;
+}
+
+/* ---------- Kachel-Raster ---------- */
+.raster {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kachel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  min-height: 60px;
+  padding: 16px 10px 18px;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  background: var(--flaeche);
+  box-shadow: var(--schatten);
+  cursor: pointer;
+  text-align: center;
+}
+.kachel:active { transform: scale(.97); border-color: var(--akzent); }
+
+.kachel-bild {
+  width: 100%;
+  max-width: 120px;
+  aspect-ratio: 1;
+  border-radius: 20px;
+  object-fit: cover;
+  display: block;
+}
+
+.platzhalter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--salbei);
+  color: var(--salbei-dunkel);
+}
+.platzhalter svg { width: 55%; height: 55%; }
+
+.kachel-text {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: anywhere;
+}
+
+.kachel-klein {
+  font-size: 22px;
+  color: var(--text-2);
+  line-height: 1.25;
+  margin-top: -4px;
+}
+
+/* iPhone-Zeichnungen in den Auswahl-Kacheln */
+.handy { width: 64px; height: 112px; display: block; }
+
+/* ---------- Gruppen-Überschriften bei der Auswahl ---------- */
+.gruppe-titel {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--salbei-dunkel);
+  background: var(--salbei);
+  border-radius: 14px;
+  padding: 10px 16px;
+  margin: 28px 0 14px;
+}
+
+/* ---------- Anleitung ---------- */
+.schritte {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  counter-reset: schritt;
+}
+
+.schritt {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 14px;
+  align-items: start;
+  background: var(--flaeche);
+  border-radius: var(--radius);
+  box-shadow: var(--schatten);
+  padding: 18px 16px;
+  margin-bottom: 16px;
+}
+
+.nummer {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--salbei);
+  color: var(--salbei-dunkel);
+  font-weight: 800;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.schritt-text { padding-top: 8px; }
+.schritt-text p { margin: 0; }
+
+.schritt-bild {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 320px;
+  margin: 6px auto 0;
+  display: block;
+  border-radius: 16px;
+  background: var(--bg);
+}
+
+.ende { margin-top: 24px; }
+
+/* ---------- Hilfe-Seite ---------- */
+.pfad {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 20px;
+}
+.pfad span {
+  background: var(--salbei);
+  color: var(--salbei-dunkel);
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 6px 12px;
+}
+
+.info-karte {
+  background: var(--flaeche);
+  border-radius: var(--radius);
+  box-shadow: var(--schatten);
+  padding: 18px 18px 4px;
+  margin-bottom: 16px;
+}
+
+.unten { margin-top: 36px; display: grid; gap: 16px; }
+
+.link-knopf {
+  background: none;
+  border: 0;
+  color: var(--akzent);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  min-height: 60px;
+  padding: 8px 0;
+  cursor: pointer;
+  text-align: left;
+}

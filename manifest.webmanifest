@@ -1,0 +1,17 @@
+{
+  "name": "iPhone-Hilfe",
+  "short_name": "iPhone-Hilfe",
+  "description": "Einfache Anleitungen für das iPhone",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF7F0",
+  "theme_color": "#FBF7F0",
+  "icons": [
+    { "src": "app-icon/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "app-icon/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "app-icon/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
