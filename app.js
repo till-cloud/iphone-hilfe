@@ -12,6 +12,8 @@ const VARIANTEN = [
     modelle: "auch 14 Plus, 16e und 17e (nicht 14 Pro)" },
   { gruppe: "insel", titel: "iPhone 15 und neuer", name: "iPhone 15 und neuer",
     modelle: "auch 14 Pro und 14 Pro Max (nicht 16e, 17e)" },
+  { gruppe: "watch", titel: "Apple Watch",       name: "Apple Watch",
+    modelle: "Anleitungen für die Uhr" },
 ];
 
 const SPEICHER_SCHLUESSEL = "iphone-hilfe-modell";
@@ -22,7 +24,7 @@ function ladeModell() {
   try {
     const roh = localStorage.getItem(SPEICHER_SCHLUESSEL);
     const m = roh && JSON.parse(roh);
-    if (m && ["home", "kerbe", "insel"].includes(m.gruppe)) return m;
+    if (m && ["home", "kerbe", "insel", "watch"].includes(m.gruppe)) return m;
   } catch (e) { /* privat-Modus o. Ä. */ }
   return null;
 }
@@ -63,6 +65,7 @@ function zurueckKnopf(aktion) {
 /* Einfache Zeichnung eines iPhones je Gruppe */
 let handyZaehler = 0;
 function handySvg(gruppe) {
+  if (gruppe === "watch") return uhrSvg();
   const home = gruppe === "home";
   const id = "hd" + (++handyZaehler);
   const knopf = (x, y, h) => `<rect x="${x}" y="${y}" width="2" height="${h}" rx="1" fill="#C7C7CC"/>`;
@@ -114,6 +117,23 @@ function handySvg(gruppe) {
     oben + unten + "</svg>";
 }
 
+/* Einfache Zeichnung einer Apple Watch (gleiche Größe wie das iPhone-Bild) */
+function uhrSvg() {
+  const id = "hd" + (++handyZaehler);
+  return `<svg class="handy" viewBox="0 0 72 116" aria-hidden="true">` +
+    `<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8EC5FC"/><stop offset=".55" stop-color="#B9B4F5"/><stop offset="1" stop-color="#F3C4D9"/></linearGradient></defs>` +
+    // Armband oben und unten
+    `<rect x="18" y="2" width="34" height="30" rx="6" fill="#B8BEC8"/><rect x="18" y="84" width="34" height="30" rx="6" fill="#B8BEC8"/>` +
+    // Krone und Seitentaste
+    `<rect x="60" y="42" width="5" height="13" rx="2" fill="#6E6E73"/><rect x="61" y="61" width="3" height="12" rx="1.5" fill="#8E8E93"/>` +
+    // Gehäuse und Bildschirm
+    `<rect x="8" y="27" width="54" height="62" rx="15" fill="#1C1C1E"/>` +
+    `<rect x="8.6" y="27.6" width="52.8" height="60.8" rx="14.5" fill="none" stroke="#6E6E73" stroke-width=".8"/>` +
+    `<rect x="12" y="31" width="46" height="54" rx="11" fill="url(#${id})"/>` +
+    `<text x="35" y="63" font-family="-apple-system,Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">10:09</text>` +
+    "</svg>";
+}
+
 /* Symbole für Kacheln ohne eigenes Bild (Strichzeichnungen, 24x24) */
 const SYMBOLE = {
   buch: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M10 8.5a2 2 0 1 1 2.5 1.9c-.5.2-.5.6-.5 1.1"/><circle cx="12" cy="14" r=".6" fill="currentColor"/>',
@@ -161,7 +181,7 @@ function zeigeAuswahl() {
 
   zeige(
     modell ? zurueckKnopf(zeigeStart) : null,
-    el("h1", {}, "Welches iPhone haben Sie?"),
+    el("h1", {}, "Welches Gerät haben Sie?"),
     el("p", { class: "unterzeile" }, "Tippen Sie auf Ihr Modell. Oder schauen Sie: Welches Bild passt?"),
     el("ul", { class: "liste" }, kacheln),
     el("div", { class: "unten" },
@@ -201,8 +221,8 @@ function zeigeStart() {
       el("button", { class: "kachel", onclick: () => zeigeAnleitung(a) },
         kachelBild(a.bild, a.symbol),
         el("span", { class: "kachel-text" }, a.titel)));
-  const kacheln = ANLEITUNGEN.filter((a) => a.geraet !== "watch").map(kachel);
-  const uhrKacheln = ANLEITUNGEN.filter((a) => a.geraet === "watch").map(kachel);
+  const istUhr = modell.gruppe === "watch";
+  const kacheln = ANLEITUNGEN.filter((a) => (a.geraet === "watch") === istUhr).map(kachel);
 
   zeige(
     el("header", { class: "kopf-start" },
@@ -211,15 +231,13 @@ function zeigeStart() {
         el("h1", {}, "Was möchten Sie wissen?"),
         el("p", { class: "unterzeile", style: "margin:0" }, "Tippen Sie auf ein Bild."))),
     el("ul", { class: "raster" }, kacheln),
-    uhrKacheln.length ? el("h2", { class: "abschnitt" }, "Apple Watch") : null,
-    uhrKacheln.length ? el("ul", { class: "raster" }, uhrKacheln) : null,
     el("div", { class: "unten" },
       el("div", { class: "mein-iphone" },
         el("span", { html: handySvg(modell.gruppe) }),
         el("div", {},
-          el("div", { class: "kachel-klein", style: "margin:0" }, "Ihr iPhone"),
+          el("div", { class: "kachel-klein", style: "margin:0" }, istUhr ? "Ihr Gerät" : "Ihr iPhone"),
           el("div", { class: "kachel-text" }, modell.name))),
-      el("button", { class: "knopf zweit", onclick: zeigeAuswahl }, "Anderes iPhone wählen")),
+      el("button", { class: "knopf zweit", onclick: zeigeAuswahl }, "Anderes Gerät wählen")),
   );
 }
 

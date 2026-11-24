@@ -209,7 +209,7 @@ const ANLEITUNGEN = [
   },
 
   /* ===== Apple Watch =====
-     geraet: "watch" -> erscheint auf der Startseite im Bereich „Apple Watch“.
+     geraet: "watch" -> erscheint nur, wenn bei der Auswahl „Apple Watch“ gewählt ist.
      Die Uhr hat rechts zwei Bedienteile: oben das Rädchen (Digital Crown), darunter die flache Seitentaste. */
   {
     id: "watch-aufladen",
