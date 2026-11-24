@@ -5,8 +5,8 @@ Anleitungs-Web-App (PWA) für die Großeltern: wie Dinge auf dem iPhone gehen. R
 ## Dateien
 - `anleitungen.js`: alle Anleitungen (einzige Datei zum Erweitern, Format oben in der Datei erklärt)
 - `zeichnungen.js`: gezeichnete iPhone-Bildschirme (SVG-Szenen, Rahmen passt sich der Gruppe an), Namensliste oben in der Datei
-- `app.js`: iPhone-Auswahl (Serien → Gruppe home/kerbe/insel), Startseite, Anleitungsansicht
-- `style.css`: Farben Creme #FBF7F0 / Salbei #DCE8E0 / Blau #1F5FD1, immer hell, Schrift ≥ 22px
+- `app.js`: iPhone-Auswahl (eine Kachel je Gruppe home/kerbe/insel, Modellliste in VARIANTEN), Startseite, Anleitungsansicht
+- `style.css`: Farben Sand #FAF6EE / Taubenblau #E3EAF4 / Orange #C2410C, immer hell, Schrift ≥ 22px
 - `sw.js`: Cache (stale-while-revalidate). Neue feste Dateien in `DATEIEN` eintragen, bei großen Änderungen `VERSION` hochzählen
 - `icons/`: Kachel-Bilder. PDFs umwandeln: `python werkzeuge/bilder_umwandeln.py icons`
 - `app-icon/`: Homescreen-Icon (aus icon.svg, gerendert mit headless Edge, da PyMuPDF Verläufe nicht kann)

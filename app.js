@@ -1,27 +1,17 @@
 "use strict";
 
-/* ---------- iPhone-Modelle ----------
+/* ---------- iPhone-Varianten ----------
+   Eine Kachel pro Bedienungs-Art. Neue iPhones einfach bei "modelle" ergänzen.
    gruppe: home  = Home-Taste
            kerbe = Face ID mit Kerbe (Notch)
-           insel = Face ID mit Dynamic Island
-   Eine Serie mit "varianten" fragt im zweiten Schritt nach. */
-const SERIEN = [
-  { id: "se",  name: "iPhone SE",  klein: "2020 oder 2022", gruppe: "home" },
-  { id: "11",  name: "iPhone 11",  klein: "auch Pro, Pro Max", gruppe: "kerbe" },
-  { id: "12",  name: "iPhone 12",  klein: "auch mini, Pro, Pro Max", gruppe: "kerbe" },
-  { id: "13",  name: "iPhone 13",  klein: "auch mini, Pro, Pro Max", gruppe: "kerbe" },
-  { id: "14",  name: "iPhone 14",  klein: "auch Plus, Pro, Pro Max", gruppe: "kerbe",
-    varianten: [
-      { id: "14",     name: "iPhone 14 oder 14 Plus",        klein: "2 Kameras hinten", gruppe: "kerbe" },
-      { id: "14-pro", name: "iPhone 14 Pro oder 14 Pro Max", klein: "3 Kameras hinten", gruppe: "insel" },
-    ] },
-  { id: "15",  name: "iPhone 15",  klein: "auch Plus, Pro, Pro Max", gruppe: "insel" },
-  { id: "16",  name: "iPhone 16",  klein: "auch Plus, Pro, Pro Max", gruppe: "insel" },
-  { id: "16e", name: "iPhone 16e", klein: "", gruppe: "kerbe" },
-  { id: "17",  name: "iPhone 17",  klein: "auch Pro, Pro Max", gruppe: "insel" },
-  { id: "17e", name: "iPhone 17e", klein: "", gruppe: "kerbe" },
-  { id: "air", name: "iPhone Air", klein: "", gruppe: "insel" },
-  { id: "18",  name: "iPhone 18 Pro", klein: "auch Pro Max", gruppe: "insel" },
+           insel = Face ID mit Dynamic Island */
+const VARIANTEN = [
+  { gruppe: "home",  titel: "Runde Taste unten",     name: "iPhone mit Home-Taste",
+    modelle: "iPhone SE (2020 und 2022)" },
+  { gruppe: "kerbe", titel: "Schwarze Kerbe oben",   name: "iPhone mit Kerbe",
+    modelle: "iPhone 11, 12, 13, 14, 14 Plus, 16e, 17e" },
+  { gruppe: "insel", titel: "Schwarze Insel oben",   name: "iPhone mit Dynamic Island",
+    modelle: "iPhone 14 Pro, 15, 16, 17, Air, 18 Pro und neuer" },
 ];
 
 const SPEICHER_SCHLUESSEL = "iphone-hilfe-modell";
@@ -71,22 +61,57 @@ function zurueckKnopf(aktion) {
 }
 
 /* Einfache Zeichnung eines iPhones je Gruppe */
+let handyZaehler = 0;
 function handySvg(gruppe) {
-  let oben = "", unten = "", bildschirm;
-  if (gruppe === "home") {
-    bildschirm = '<rect x="7" y="18" width="50" height="76" rx="2" fill="#DCE8E0"/>';
-    oben = '<rect x="26" y="9" width="12" height="3" rx="1.5" fill="#55555c"/>';
-    unten = '<circle cx="32" cy="103" r="5.5" fill="none" stroke="#9a9aa2" stroke-width="2"/>';
-  } else {
-    bildschirm = '<rect x="5" y="5" width="54" height="102" rx="10" fill="#DCE8E0"/>';
-    oben = gruppe === "kerbe"
-      ? '<path d="M20 5h24v3a5 5 0 0 1-5 5H25a5 5 0 0 1-5-5z" fill="#1c1c1e"/>'
-      : '<rect x="23" y="10" width="18" height="6" rx="3" fill="#1c1c1e"/>';
-    unten = '<rect x="22" y="100" width="20" height="2.5" rx="1.25" fill="#1c1c1e" opacity=".55"/>';
+  const home = gruppe === "home";
+  const id = "hd" + (++handyZaehler);
+  const knopf = (x, y, h) => `<rect x="${x}" y="${y}" width="2" height="${h}" rx="1" fill="#C7C7CC"/>`;
+
+  // Bildschirm-Fläche (schmaler Rand)
+  const s = home ? { x: 7.5, y: 18, w: 57, h: 78, r: 2 } : { x: 7, y: 4, w: 58, h: 108, r: 13 };
+  const off = (s.w - 39) / 2;
+
+  // kleine App-Symbole auf dem Bildschirm
+  let apps = "";
+  const farben = ["#FFFFFF", "#FFD60A", "#34C759", "#FF6B6B", "#5AC8FA", "#FFFFFF", "#AF52DE", "#FF9F0A"];
+  const startY = s.y + (home ? 7 : 16);
+  for (let r = 0; r < (home ? 3 : 4); r++) {
+    for (let c = 0; c < 4; c++) {
+      const f = farben[(r * 4 + c) % farben.length];
+      apps += `<rect x="${s.x + off + c * 10.5}" y="${startY + r * 12}" width="7.5" height="7.5" rx="2.2" fill="${f}" opacity="${f === "#FFFFFF" ? 0.85 : 0.9}"/>`;
+    }
   }
-  return '<svg class="handy" viewBox="0 0 64 112" aria-hidden="true">' +
-    '<rect x="1" y="1" width="62" height="110" rx="' + (gruppe === "home" ? 9 : 13) + '" fill="#fff" stroke="#1c1c1e" stroke-width="2"/>' +
-    bildschirm + oben + unten + "</svg>";
+  const dockY = s.y + s.h - (home ? 13 : 16);
+  apps += `<rect x="${s.x + 3}" y="${dockY - 2.5}" width="${s.w - 6}" height="12" rx="5" fill="#fff" opacity=".35"/>`;
+  for (let c = 0; c < 4; c++) {
+    apps += `<rect x="${s.x + off + c * 10.5}" y="${dockY}" width="7.5" height="7.5" rx="2.2" fill="${["#34C759", "#1A8CFF", "#34C759", "#1A8CFF"][c]}"/>`;
+  }
+
+  let oben = "", unten = "";
+  if (home) {
+    oben = '<rect x="29" y="9" width="14" height="2.5" rx="1.25" fill="#3A3A3C"/><circle cx="23" cy="10.2" r="1.6" fill="#2C2C2E"/>';
+    unten = '<circle cx="36" cy="105.5" r="6" fill="#1C1C1E" stroke="#6E6E73" stroke-width="1.4"/>';
+  } else {
+    oben = gruppe === "kerbe"
+      ? '<path d="M25 4h22v2.5a4.5 4.5 0 0 1-4.5 4.5h-13A4.5 4.5 0 0 1 25 6.5z" fill="#1C1C1E"/>'
+      : '<rect x="27.5" y="7.5" width="17" height="5.5" rx="2.75" fill="#000"/>';
+    unten = '<rect x="27" y="107" width="18" height="2" rx="1" fill="#fff" opacity=".9"/>';
+  }
+
+  return `<svg class="handy" viewBox="0 0 72 116" aria-hidden="true">` +
+    `<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8EC5FC"/><stop offset=".55" stop-color="#B9B4F5"/><stop offset="1" stop-color="#F3C4D9"/></linearGradient>` +
+    `<linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>` +
+    // Seitentasten
+    (home ? knopf(2.5, 27, 9) + knopf(2.5, 39, 9) + knopf(67.5, 26, 11)
+          : knopf(2.5, 34, 12) + knopf(2.5, 50, 12) + knopf(67.5, 38, 18)) +
+    // Gehäuse mit schmalem Rand und feiner Lichtkante
+    `<rect x="4" y="1" width="64" height="114" rx="${home ? 11 : 16}" fill="#1C1C1E"/>` +
+    `<rect x="4.6" y="1.6" width="62.8" height="112.8" rx="${home ? 10.5 : 15.5}" fill="none" stroke="#6E6E73" stroke-width=".8"/>` +
+    // Bildschirm
+    `<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="${s.r}" fill="url(#${id})"/>` +
+    apps +
+    `<path d="M${s.x} ${s.y + s.r} L${s.x + s.w * 0.55} ${s.y} L${s.x + s.w * 0.8} ${s.y} L${s.x} ${s.y + s.h * 0.45} Z" fill="url(#${id}g)"/>` +
+    oben + unten + "</svg>";
 }
 
 /* Symbole für Kacheln ohne eigenes Bild (Strichzeichnungen, 24x24) */
@@ -121,41 +146,21 @@ function kachelBild(pfad, symbol) {
 
 /* ---------- Bildschirm: iPhone wählen ---------- */
 function zeigeAuswahl() {
-  const kacheln = SERIEN.map((s) =>
+  const kacheln = VARIANTEN.map((v) =>
     el("li", {},
-      el("button", { class: "kachel", onclick: () => waehleSerie(s) },
-        el("span", { html: handySvg(s.gruppe) }),
-        el("span", { class: "kachel-text" }, s.name),
-        s.klein ? el("span", { class: "kachel-klein" }, s.klein) : null)));
+      el("button", { class: "kachel quer", onclick: () => setzeModell({ name: v.name, gruppe: v.gruppe }) },
+        el("span", { html: handySvg(v.gruppe) }),
+        el("span", { class: "quer-text" },
+          el("span", { class: "kachel-text" }, v.titel),
+          el("span", { class: "kachel-klein" }, v.modelle)))));
 
   zeige(
     modell ? zurueckKnopf(zeigeStart) : null,
     el("h1", {}, "Welches iPhone haben Sie?"),
-    el("p", { class: "unterzeile" }, "Tippen Sie auf Ihr Modell."),
-    el("ul", { class: "raster" }, kacheln),
+    el("p", { class: "unterzeile" }, "Schauen Sie auf Ihr iPhone. Welches Bild passt?"),
+    el("ul", { class: "liste" }, kacheln),
     el("div", { class: "unten" },
       el("button", { class: "knopf zweit", onclick: zeigeHilfeModell }, "Welches iPhone habe ich?")),
-  );
-}
-
-function waehleSerie(s) {
-  if (s.varianten) return zeigeVarianten(s);
-  setzeModell({ serie: s.id, name: s.name, gruppe: s.gruppe });
-}
-
-function zeigeVarianten(s) {
-  const kacheln = s.varianten.map((v) =>
-    el("li", {},
-      el("button", { class: "kachel", onclick: () => setzeModell({ serie: v.id, name: v.name, gruppe: v.gruppe }) },
-        el("span", { html: handySvg(v.gruppe) }),
-        el("span", { class: "kachel-text" }, v.name),
-        el("span", { class: "kachel-klein" }, v.klein))));
-
-  zeige(
-    zurueckKnopf(zeigeAuswahl),
-    el("h1", {}, "Welches " + s.name + "?"),
-    el("p", { class: "unterzeile" }, "Schauen Sie auf die Rückseite: Wie viele Kameras hat Ihr iPhone?"),
-    el("ul", { class: "raster" }, kacheln),
   );
 }
 
@@ -176,7 +181,7 @@ function zeigeHilfeModell() {
         el("span", {}, "Allgemein"), "›", el("span", {}, "Info")),
       el("p", {}, "Neben „Modellname“ steht Ihr iPhone, zum Beispiel „iPhone 13“.")),
     el("div", { class: "info-karte" },
-      el("p", {}, "Ihr iPhone hat eine runde Taste unter dem Bildschirm? Dann ist es ein iPhone SE.")),
+      el("p", {}, "Unter jedem Bild bei der Auswahl steht, welche iPhones dazugehören. Suchen Sie dort Ihren Modellnamen.")),
     el("div", { class: "unten" },
       el("button", { class: "knopf", onclick: zeigeAuswahl }, "Jetzt iPhone wählen")),
   );

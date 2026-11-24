@@ -28,7 +28,7 @@
 const ZEICHNUNG = (() => {
   const W = 200;
   const BLAU = "#007AFF";
-  const MARKE = "#1F5FD1";
+  const MARKE = "#C2410C";
   const ROT = "#FF3B30";
   const GRAU = "#8E8E93";
   const SCHRIFT = "-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif";
