@@ -2,7 +2,7 @@
    Strategie: sofort aus dem Speicher antworten, im Hintergrund neu laden.
    Neue Anleitungen erscheinen damit spätestens beim zweiten Öffnen.
    Bei größeren Änderungen VERSION hochzählen. */
-const VERSION = "v2";
+const VERSION = "v3";
 const CACHE = "iphone-hilfe-" + VERSION;
 
 const DATEIEN = [

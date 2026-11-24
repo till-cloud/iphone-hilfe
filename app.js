@@ -128,6 +128,11 @@ const SYMBOLE = {
   muell: '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 14h10l1-14"/><path d="M10 11v6M14 11v6"/>',
   schrift: '<path d="M3 19 8 6l5 13"/><path d="M4.8 14.5h6.4"/><path d="M14 19l3.5-9 3.5 9"/><path d="M15.3 16h4.4"/>',
   lautsprecher: '<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 9a4 4 0 0 1 0 6"/><path d="M19 6.5a7.5 7.5 0 0 1 0 11"/>',
+  watch: '<rect x="6" y="6" width="12" height="12" rx="3.5"/><path d="M8.5 6 9.5 2h5l1 4M8.5 18l1 4h5l1-4"/><path d="M12 9.5V12l1.5 1"/>',
+  blitz: '<path d="M13 2 5 13h6l-1 9 8-11h-6z"/>',
+  notruf: '<path d="M12 3 2.5 20h19z"/><path d="M12 9.5v5"/><circle cx="12" cy="17.3" r=".7" fill="currentColor"/>',
+  hilfe: '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v6"/><circle cx="12" cy="16.5" r=".7" fill="currentColor"/>',
+  iphone: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/><path d="M20 8.5a5 5 0 0 1 0 7M4 8.5a5 5 0 0 0 0 7"/>',
   sonne: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>',
 };
 
@@ -191,11 +196,13 @@ function zeigeHilfeModell() {
 function zeigeStart() {
   if (!modell) return zeigeAuswahl();
 
-  const kacheln = ANLEITUNGEN.map((a) =>
+  const kachel = (a) =>
     el("li", {},
       el("button", { class: "kachel", onclick: () => zeigeAnleitung(a) },
         kachelBild(a.bild, a.symbol),
-        el("span", { class: "kachel-text" }, a.titel))));
+        el("span", { class: "kachel-text" }, a.titel)));
+  const kacheln = ANLEITUNGEN.filter((a) => a.geraet !== "watch").map(kachel);
+  const uhrKacheln = ANLEITUNGEN.filter((a) => a.geraet === "watch").map(kachel);
 
   zeige(
     el("header", { class: "kopf-start" },
@@ -204,6 +211,8 @@ function zeigeStart() {
         el("h1", {}, "Was möchten Sie wissen?"),
         el("p", { class: "unterzeile", style: "margin:0" }, "Tippen Sie auf ein Bild."))),
     el("ul", { class: "raster" }, kacheln),
+    uhrKacheln.length ? el("h2", { class: "abschnitt" }, "Apple Watch") : null,
+    uhrKacheln.length ? el("ul", { class: "raster" }, uhrKacheln) : null,
     el("div", { class: "unten" },
       el("div", { class: "mein-iphone" },
         el("span", { html: handySvg(modell.gruppe) }),

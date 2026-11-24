@@ -15,6 +15,6 @@ Anleitungs-Web-App (PWA) für die Großeltern: wie Dinge auf dem iPhone gehen. R
 `python -m http.server 8765` und http://localhost:8765 öffnen, Viewport 375x667 (iPhone SE).
 
 ## Stand
-- Fertig: Auswahl, Startseite, 10 Anleitungen mit Zeichnungen, dezenter Liquid-Glass-Look
+- Fertig: Auswahl, Startseite, 10 iPhone-Anleitungen + 6 Apple-Watch-Anleitungen (geraet: "watch", eigener Uhr-Rahmen in zeichnungen.js) mit Zeichnungen, dezenter Liquid-Glass-Look
 - Offen: Inhalte vom Nutzer prüfen lassen; Kachel-Bilder aus /icons; GitHub-Pages-Deploy; Test auf echtem iPhone
 - iPhone Duo (Falt-iPhone) bewusst weggelassen

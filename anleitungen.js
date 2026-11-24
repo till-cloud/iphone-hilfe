@@ -207,4 +207,92 @@ const ANLEITUNGEN = [
       { text: "Tippen Sie auf eine freie Stelle. Dann geht das Fenster wieder zu.", zeichnung: "kz-schliessen" },
     ],
   },
+
+  /* ===== Apple Watch =====
+     geraet: "watch" -> erscheint auf der Startseite im Bereich „Apple Watch“.
+     Die Uhr hat rechts zwei Bedienteile: oben das Rädchen (Digital Crown), darunter die flache Seitentaste. */
+  {
+    id: "watch-aufladen",
+    geraet: "watch",
+    titel: "Uhr aufladen",
+    bild: "",
+    symbol: "blitz",
+    schritte: [
+      { text: "Stecken Sie das Ladegerät in die Steckdose. Das ist die kleine weiße runde Scheibe mit Kabel." },
+      { text: "Legen Sie die Uhr mit der Rückseite auf die Scheibe. Ein Magnet hält sie fest.", zeichnung: "uhr-ladegeraet" },
+      { text: "Auf der Uhr erscheint ein grüner Blitz. Jetzt lädt sie.", zeichnung: "uhr-laden" },
+      { text: "Nach etwa ein bis zwei Stunden ist sie voll. Am besten laden Sie die Uhr jeden Tag, zum Beispiel beim Duschen oder abends." },
+      { text: "Der Blitz ist gelb? Dann ist der Stromsparmodus an. Das ist nicht schlimm, er geht beim Laden von allein wieder aus." },
+    ],
+  },
+  {
+    id: "watch-uhrzeit",
+    geraet: "watch",
+    titel: "Zurück zur Uhrzeit",
+    bild: "",
+    symbol: "watch",
+    schritte: [
+      { text: "Der Bildschirm ist schwarz? Heben Sie das Handgelenk und schauen Sie auf die Uhr. Oder tippen Sie kurz auf den Bildschirm.", zeichnung: "uhr-dunkel:tipp" },
+      { text: "Rechts an der Uhr ist ein Rädchen. Es heißt „Digital Crown“. Drücken Sie einmal darauf.", zeichnung: "uhr-apps:krone" },
+      { text: "Jetzt sehen Sie wieder die Uhrzeit. Das klappt aus jeder App.", zeichnung: "uhr-zifferblatt" },
+      { text: "Drücken Sie noch einmal auf das Rädchen, sehen Sie alle Apps als bunte Kreise.", zeichnung: "uhr-apps" },
+      { text: "Drehen Sie am Rädchen, um in einer Liste nach oben oder unten zu blättern.", zeichnung: "uhr-apps:drehen" },
+    ],
+  },
+  {
+    id: "watch-anruf",
+    geraet: "watch",
+    titel: "Anruf auf der Uhr",
+    bild: "",
+    symbol: "telefon",
+    schritte: [
+      { text: "Die Uhr summt und Sie sehen einen Namen. Jemand ruft Sie an.", zeichnung: "uhr-anruf" },
+      { text: "Tippen Sie auf den grünen Knopf. Jetzt können Sie sprechen. Halten Sie die Uhr dabei ruhig etwas näher an den Mund.", zeichnung: "uhr-anruf:annehmen" },
+      { text: "Sie möchten nicht sprechen? Tippen Sie auf den roten Knopf.", zeichnung: "uhr-anruf:ablehnen" },
+      { text: "Es klingelt gerade unpassend? Legen Sie die ganze Hand auf die Uhr. Dann ist sie still.", zeichnung: "uhr-anruf:abdecken" },
+      { text: "Zu leise? Drehen Sie während des Gesprächs am Rädchen. Dann wird es lauter.", zeichnung: "uhr-gespraech:drehen" },
+      { text: "Zum Auflegen tippen Sie auf den roten Knopf.", zeichnung: "uhr-gespraech:auflegen" },
+    ],
+  },
+  {
+    id: "watch-notruf",
+    geraet: "watch",
+    titel: "Notruf rufen",
+    bild: "",
+    symbol: "notruf",
+    schritte: [
+      { text: "Rechts an der Uhr, unter dem Rädchen, ist eine flache Taste. Halten Sie diese Taste gedrückt.", zeichnung: "uhr-zifferblatt:seite-halten" },
+      { text: "Es erscheinen mehrere Balken. Schieben Sie den unteren roten Balken „Notruf“ mit dem Finger nach rechts. Die Uhr ruft sofort den Notruf an.", zeichnung: "uhr-sos:notruf" },
+      { text: "Oder: Halten Sie die Taste einfach weiter gedrückt. Die Uhr piept laut und zählt herunter. Danach ruft sie den Notruf an.", zeichnung: "uhr-countdown:halten" },
+      { text: "Sprechen Sie mit der Uhr wie mit einem Telefon. Sagen Sie, wo Sie sind und was passiert ist." },
+      { text: "Aus Versehen angerufen? Nicht auflegen! Warten Sie, bis sich jemand meldet, und sagen Sie: „Alles in Ordnung, das war ein Versehen.“" },
+    ],
+  },
+  {
+    id: "watch-sturz",
+    geraet: "watch",
+    titel: "Nach einem Sturz",
+    bild: "",
+    symbol: "hilfe",
+    schritte: [
+      { text: "Wenn Sie schwer stürzen, klopft die Uhr an Ihr Handgelenk und piept. Auf dem Bildschirm steht: „Anscheinend bist du gestürzt.“", zeichnung: "uhr-sturz" },
+      { text: "Ihnen geht es gut? Tippen Sie auf „Mir geht‘s gut“. Dann passiert nichts weiter.", zeichnung: "uhr-sturz:gut" },
+      { text: "Sie brauchen Hilfe? Schieben Sie den roten Balken „Notruf“ nach rechts.", zeichnung: "uhr-sturz:notruf" },
+      { text: "Sie können sich nicht bewegen? Dann müssen Sie nichts tun. Nach etwa einer Minute zählt die Uhr herunter und ruft selbst den Notruf an. Ihre Notfallkontakte bekommen danach eine Nachricht." },
+      { text: "Die Uhr zählt herunter, aber Ihnen geht es gut? Tippen Sie schnell auf „Abbrechen“.", zeichnung: "uhr-sturz-countdown" },
+    ],
+  },
+  {
+    id: "watch-iphone-finden",
+    geraet: "watch",
+    titel: "iPhone finden",
+    bild: "",
+    symbol: "iphone",
+    schritte: [
+      { text: "Sie wissen nicht, wo Ihr iPhone liegt? Drücken Sie einmal kurz auf die flache Taste rechts an der Uhr.", zeichnung: "uhr-zifferblatt:seite" },
+      { text: "Suchen Sie den Knopf mit dem kleinen iPhone. Er heißt „iPhone anpingen“.", zeichnung: "uhr-kontrollzentrum" },
+      { text: "Tippen Sie darauf. Ihr iPhone macht jetzt einen hellen Ton, auch wenn es leise gestellt ist. Gehen Sie dem Ton nach.", zeichnung: "uhr-kontrollzentrum:iphone" },
+      { text: "Gefunden? Drücken Sie noch einmal auf die flache Taste. Dann sehen Sie wieder die Uhrzeit." },
+    ],
+  },
 ];

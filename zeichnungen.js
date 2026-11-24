@@ -24,6 +24,19 @@
     kz-oeffnen, kontrollzentrum (hell, laut), kz-schliessen
     seitentasten, lautstaerke-anzeige
     schwarz               : seite, home
+
+  Apple Watch (eigener Uhr-Rahmen, unabhängig vom iPhone):
+    uhr-zifferblatt       : krone, drehen, seite, seite-halten
+    uhr-dunkel            : tipp
+    uhr-apps              : krone, drehen, app
+    uhr-laden, uhr-ladegeraet
+    uhr-anruf             : annehmen, ablehnen, abdecken
+    uhr-gespraech         : drehen, auflegen
+    uhr-sos               : notruf
+    uhr-countdown         : halten
+    uhr-sturz             : gut, notruf
+    uhr-sturz-countdown
+    uhr-kontrollzentrum   : iphone
 */
 const ZEICHNUNG = (() => {
   const W = 200;
@@ -627,9 +640,162 @@ const ZEICHNUNG = (() => {
     },
   };
 
+  /* ---------- Apple Watch ----------
+     Bildschirm 200 x 240, Krone und Seitentaste rechts. */
+  const UH = 240;
+  const GRUEN = "#34C759";
+  const KRONE = { x: 226, y: 63 }, SEITE = { x: 222, y: 148 };
+  const schwarzUhr = () => R(0, 0, W, UH, 0, "#000");
+  const kroneTipp = () => tipp(KRONE.x, KRONE.y);
+  const seiteMarke = () => R(213, 118, 12, 60, 6, "none", `stroke="${MARKE}" stroke-width="2.5"`);
+
+  function drehen(x, y) {
+    const a = `M${x + 12} ${y - 26} A 28 28 0 0 1 ${x + 12} ${y + 26}`;
+    return `<g class="z-wisch"><path d="${a}" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/>` +
+      `<path d="${a}" fill="none" stroke="${MARKE}" stroke-width="4.5" stroke-linecap="round"/>` +
+      `<path d="M${x + 2} ${y + 30} L${x + 20} ${y + 33} L${x + 12} ${y + 16} Z" fill="${MARKE}" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>` +
+      C(x, y, 9, MARKE, `stroke="#fff" stroke-width="2.5"`) +
+      R(x - 22, y - 52, 52, 17, 8.5, MARKE) + T(x + 4, y - 40, "drehen", { size: 9, weight: 700, fill: "#fff", anchor: "middle" }) + "</g>";
+  }
+
+  const hoerer = (x, y, farbe, auflegen) =>
+    C(x, y, 25, farbe) +
+    `<g transform="translate(${x - 11} ${y - 11}) scale(.92)${auflegen ? " rotate(135 12 12)" : ""}">` +
+    '<path d="M6.5 3.5h3l1.5 4-2 1.3a10 10 0 0 0 6 6l1.3-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 5.5a2 2 0 0 1 2-2z" fill="#fff"/></g>';
+
+  function regler(y, farbe, zeichen, text) {
+    return R(12, y, 176, 46, 23, "#2C2C2E") + C(35, y + 23, 19, farbe) +
+      T(35, y + 27, zeichen, { size: zeichen.length > 2 ? 9 : 13, weight: 700, fill: "#fff", anchor: "middle" }) +
+      T(62, y + 28, text, { size: 13, fill: "#fff" });
+  }
+
+  function zifferblatt() {
+    return schwarzUhr() +
+      T(100, 74, "Dienstag, 24.", { size: 14, weight: 600, fill: "#FF9F0A", anchor: "middle" }) +
+      T(100, 140, "10:09", { size: 58, weight: 300, fill: "#fff", anchor: "middle" }) +
+      C(62, 186, 17, "#1C1C1E", `stroke="${GRUEN}" stroke-width="3"`) + T(62, 191, "72", { size: 12, fill: "#fff", anchor: "middle" }) +
+      C(138, 186, 17, "#1C1C1E", 'stroke="#5AC8FA" stroke-width="3"') + T(138, 191, "8°", { size: 12, fill: "#fff", anchor: "middle" });
+  }
+
+  function appGitter() {
+    const farben = ["#FF3B30", "#34C759", "#007AFF", "#FF9500", "#AF52DE", "#5AC8FA", "#FFCC00", "#FF2D55", "#8E8E93"];
+    let out = schwarzUhr(), i = 0;
+    [[60, [55, 100, 145]], [105, [32, 77, 122, 167]], [150, [55, 100, 145]], [195, [77, 122]]].forEach(([y, xs]) =>
+      xs.forEach((x) => { out += C(x, y, 19, farbe(i++)); }));
+    function farbe(n) { return farben[n % farben.length]; }
+    return out;
+  }
+
+  function uhrIphone(x, y, f = "#fff") {
+    return R(x - 6, y - 10, 12, 20, 3, "none", `stroke="${f}" stroke-width="2"`) +
+      `<path d="M${x + 10} ${y - 6} a8 8 0 0 1 0 12 M${x - 10} ${y - 6} a8 8 0 0 0 0 12" fill="none" stroke="${f}" stroke-width="1.8" stroke-linecap="round"/>`;
+  }
+
+  const UHR_SZENEN = {
+    "uhr-zifferblatt": (p) => ({
+      inhalt: zifferblatt(),
+      overlay: { krone: kroneTipp(), drehen: drehen(KRONE.x, KRONE.y), seite: seiteMarke() + tipp(SEITE.x, SEITE.y), "seite-halten": seiteMarke() + halten(SEITE.x, SEITE.y) }[p] || "",
+    }),
+    "uhr-dunkel": (p) => ({ inhalt: schwarzUhr(), overlay: p === "tipp" ? tipp(100, 120) : "" }),
+    "uhr-apps": (p) => ({ inhalt: appGitter(), overlay: { krone: kroneTipp(), drehen: drehen(KRONE.x, KRONE.y), app: tipp(100, 105) }[p] || "" }),
+    "uhr-laden": () => ({
+      inhalt: schwarzUhr() + T(100, 58, "10:09", { size: 18, weight: 600, fill: "#fff", anchor: "middle" }) +
+        C(100, 135, 46, "none", `stroke="#1C3A22" stroke-width="7"`) +
+        `<path d="M100 89 a46 46 0 1 1 -43.7 31.8" fill="none" stroke="${GRUEN}" stroke-width="7" stroke-linecap="round"/>` +
+        `<path d="M106 107 L88 138 h12 l-6 27 L114 130 h-12 z" fill="${GRUEN}"/>`,
+      overlay: markierung(46, 80, 108, 110, 54),
+    }),
+    "uhr-ladegeraet": () => ({
+      ohneRahmen: true,
+      inhalt:
+        // Rückseite der Uhr
+        `<g transform="translate(4 -44) scale(.66)">` +
+        R(28, -90, 144, 90, 18, "#B8BEC8") + R(28, 240, 144, 90, 18, "#B8BEC8") +
+        R(-18, -18, 236, 276, 58, "#3A3A3C", 'stroke="#636366" stroke-width="2"') +
+        C(100, 120, 78, "#2C2C2E", 'stroke="#636366" stroke-width="2"') + C(100, 120, 44, "#1C1C1E") + C(100, 120, 18, "#3A3A3C") +
+        R(-30, 40, 12, 46, 5, "#48484A") + "</g>" +
+        T(70, 160, "Rückseite der Uhr", { size: 15, weight: 600, fill: "#3C3C43", anchor: "middle" }) +
+        // Ladegerät (rund, weiß) mit Kabel
+        `<path d="M196 282 C196 300 230 300 240 320" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>` +
+        `<path d="M196 282 C196 300 230 300 240 320" fill="none" stroke="#D1D1D6" stroke-width="1" />` +
+        C(196, 236, 46, "#fff", 'stroke="#C7C7CC" stroke-width="2"') + C(196, 236, 31, "#F2F2F7", 'stroke="#E5E5EA" stroke-width="1.5"') +
+        T(120, 300, "Ladegerät", { size: 15, weight: 600, fill: "#3C3C43", anchor: "middle" }),
+      overlay: wisch(196, 190, 136, 72),
+    }),
+    "uhr-anruf": (p) => ({
+      inhalt: schwarzUhr() + C(100, 46, 20, "#636366") + T(100, 53, "A", { size: 18, weight: 600, fill: "#fff", anchor: "middle" }) +
+        T(100, 98, "Anna", { size: 22, weight: 700, fill: "#fff", anchor: "middle" }) +
+        T(100, 120, "ruft an …", { size: 13, fill: GRAU, anchor: "middle" }) +
+        hoerer(44, 180, ROT, true) + hoerer(100, 180, GRUEN) + C(156, 180, 25, "#3A3A3C") +
+        [148, 156, 164].map((x) => C(x, 180, 2.6, "#fff")).join(""),
+      overlay: {
+        annehmen: tipp(100, 180), ablehnen: tipp(44, 180),
+        abdecken: markierung(4, 4, 192, 232, 38) + R(52, 108, 96, 22, 11, MARKE) + T(100, 123, "Hand drauflegen", { size: 10, weight: 700, fill: "#fff", anchor: "middle" }),
+      }[p] || "",
+    }),
+    "uhr-gespraech": (p) => ({
+      inhalt: schwarzUhr() + T(100, 74, "Anna", { size: 22, weight: 700, fill: "#fff", anchor: "middle" }) +
+        T(100, 98, "00:12", { size: 14, fill: GRUEN, anchor: "middle" }) +
+        `<path d="M70 132 h7 l9 -7 v22 l-9 -7 h-7z" fill="#fff"/>` + R(94, 134, 40, 5, 2.5, "#3A3A3C") + R(94, 134, 24, 5, 2.5, "#fff") +
+        hoerer(100, 190, ROT, true),
+      overlay: { drehen: drehen(KRONE.x, KRONE.y), auflegen: tipp(100, 190) }[p] || "",
+    }),
+    "uhr-sos": (p) => ({
+      inhalt: schwarzUhr() + regler(30, ROT, "✱", "Notfallpass") + regler(96, "#007AFF", "↩", "Kompass-Backtrack") + regler(162, ROT, "SOS", "Notruf"),
+      overlay: p === "notruf" ? wisch(35, 185, 168, 185) : "",
+    }),
+    "uhr-countdown": (p) => ({
+      inhalt: schwarzUhr() + T(100, 58, "Notruf SOS", { size: 16, weight: 700, fill: "#fff", anchor: "middle" }) +
+        C(100, 140, 52, "none", `stroke="${ROT}" stroke-width="6"`) + T(100, 166, "3", { size: 70, weight: 600, fill: ROT, anchor: "middle" }),
+      overlay: p === "halten" ? seiteMarke() + halten(SEITE.x, SEITE.y) : "",
+    }),
+    "uhr-sturz": (p) => ({
+      inhalt: schwarzUhr() + T(100, 46, "Anscheinend bist", { size: 15, weight: 700, fill: "#fff", anchor: "middle" }) +
+        T(100, 66, "du gestürzt.", { size: 15, weight: 700, fill: "#fff", anchor: "middle" }) +
+        regler(92, ROT, "SOS", "Notruf") + R(12, 158, 176, 46, 23, "#3A3A3C") +
+        T(100, 186, "Mir geht‘s gut", { size: 14, weight: 600, fill: "#fff", anchor: "middle" }),
+      overlay: { gut: tipp(100, 181), notruf: wisch(35, 115, 168, 115) }[p] || "",
+    }),
+    "uhr-sturz-countdown": () => ({
+      inhalt: schwarzUhr() + T(100, 52, "Notruf in", { size: 16, weight: 700, fill: "#fff", anchor: "middle" }) +
+        T(100, 138, "25", { size: 68, weight: 600, fill: ROT, anchor: "middle" }) +
+        R(30, 164, 140, 44, 22, "#3A3A3C") + T(100, 191, "Abbrechen", { size: 14, weight: 600, fill: "#fff", anchor: "middle" }),
+      overlay: tipp(100, 186),
+    }),
+    "uhr-kontrollzentrum": (p) => {
+      let inhalt = schwarzUhr();
+      const pos = [[44, 60], [100, 60], [156, 60], [44, 120], [100, 120], [156, 120], [44, 180], [100, 180], [156, 180]];
+      pos.forEach(([x, y], i) => {
+        inhalt += C(x, y, 24, i === 4 ? "#3A3A3C" : "#2C2C2E");
+        if (i !== 4) inhalt += C(x, y, 6, "#8E8E93");
+      });
+      inhalt += uhrIphone(100, 120);
+      return { inhalt, overlay: p === "iphone" ? tipp(100, 120) : markierung(72, 92, 56, 56, 28) };
+    },
+  };
+
+  function renderUhr(name, zusatz) {
+    const s = UHR_SZENEN[name](zusatz);
+    const id = "z" + (++zaehler);
+    const vb = `-50 -60 320 ${s.ohneRahmen ? 380 : 360}`;
+    if (s.ohneRahmen) {
+      return `<svg class="z-svg z-ganz z-uhr" viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${s.inhalt}${s.overlay || ""}</svg>`;
+    }
+    const rahmen =
+      R(28, -100, 144, 92, 18, "#B8BEC8") + R(28, 248, 144, 92, 18, "#B8BEC8") +
+      R(214, 40, 12, 46, 5, "#3A3A3C", 'stroke="#636366" stroke-width="1.5"') +
+      [48, 56, 64, 72, 80].map((y) => L(216, y, 224, y, "#636366", 1)).join("") +
+      R(216, 122, 6, 52, 3, "#48484A") +
+      R(-18, -18, 236, 276, 58, "#1C1C1E", 'stroke="#48484A" stroke-width="2"');
+    return `<svg class="z-svg z-ganz z-uhr" viewBox="${vb}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">` +
+      `<defs><clipPath id="${id}c"><rect x="0" y="0" width="${W}" height="${UH}" rx="42"/></clipPath></defs>` +
+      rahmen + `<g clip-path="url(#${id}c)">${s.inhalt}</g>` + (s.overlay || "") + "</svg>";
+  }
+
   /* ---------- iPhone-Rahmen ---------- */
   function render(angabe, gruppe) {
     const [name, zusatz] = String(angabe).split(":");
+    if (UHR_SZENEN[name]) return renderUhr(name, zusatz);
     const szene = SZENEN[name];
     if (!szene) { console.warn("Unbekannte Zeichnung:", angabe); return ""; }
     const home = gruppe === "home";

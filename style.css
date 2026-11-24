@@ -373,3 +373,6 @@ button { font: inherit; color: inherit; }
 }
 
 .unten { margin-top: 36px; display: grid; gap: 16px; }
+
+/* Abschnitt „Apple Watch“ auf der Startseite */
+.abschnitt { margin: 32px 0 16px; font-size: 26px; }
