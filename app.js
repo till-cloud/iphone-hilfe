@@ -6,12 +6,12 @@
            kerbe = Face ID mit Kerbe (Notch)
            insel = Face ID mit Dynamic Island */
 const VARIANTEN = [
-  { gruppe: "home",  titel: "Runde Taste unten",     name: "iPhone mit Home-Taste",
-    modelle: "iPhone SE (2020 und 2022)" },
-  { gruppe: "kerbe", titel: "Schwarze Kerbe oben",   name: "iPhone mit Kerbe",
-    modelle: "iPhone 11, 12, 13, 14, 14 Plus, 16e, 17e" },
-  { gruppe: "insel", titel: "Schwarze Insel oben",   name: "iPhone mit Dynamic Island",
-    modelle: "iPhone 14 Pro, 15, 16, 17, Air, 18 Pro und neuer" },
+  { gruppe: "home",  titel: "iPhone SE",           name: "iPhone SE",
+    modelle: "2020 und 2022" },
+  { gruppe: "kerbe", titel: "iPhone 11 bis 14",    name: "iPhone 11 bis 14",
+    modelle: "auch 14 Plus, 16e und 17e (nicht 14 Pro)" },
+  { gruppe: "insel", titel: "iPhone 15 und neuer", name: "iPhone 15 und neuer",
+    modelle: "auch 14 Pro und 14 Pro Max (nicht 16e, 17e)" },
 ];
 
 const SPEICHER_SCHLUESSEL = "iphone-hilfe-modell";
@@ -157,7 +157,7 @@ function zeigeAuswahl() {
   zeige(
     modell ? zurueckKnopf(zeigeStart) : null,
     el("h1", {}, "Welches iPhone haben Sie?"),
-    el("p", { class: "unterzeile" }, "Schauen Sie auf Ihr iPhone. Welches Bild passt?"),
+    el("p", { class: "unterzeile" }, "Tippen Sie auf Ihr Modell. Oder schauen Sie: Welches Bild passt?"),
     el("ul", { class: "liste" }, kacheln),
     el("div", { class: "unten" },
       el("button", { class: "knopf zweit", onclick: zeigeHilfeModell }, "Welches iPhone habe ich?")),
