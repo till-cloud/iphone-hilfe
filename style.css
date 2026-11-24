@@ -1,17 +1,24 @@
-/* Farben nach 60-30-10: Creme / Salbei / Blau. Immer hell. */
+/* Farben nach 60-30-10: Creme / Salbei / Blau. Immer hell.
+   Dezenter Liquid-Glass-Look: Glasflächen sind fast deckend, damit Text gut lesbar bleibt. */
 :root {
   color-scheme: light only;
   --bg: #FBF7F0;          /* 60 % warmes Creme */
-  --flaeche: #FFFFFF;     /* Karten */
   --salbei: #DCE8E0;      /* 30 % Nebenfarbe */
+  --salbei-hell: #EAF2EC;
   --salbei-dunkel: #2F4A3C;
   --akzent: #1F5FD1;      /* 10 % Knöpfe */
+  --akzent-hell: #3D7BEA;
   --akzent-druck: #174AA6;
   --text: #1C1C1E;
   --text-2: #3C3C43;
-  --rand: #E6E0D4;
-  --schatten: 0 1px 2px rgba(40, 30, 10, .06), 0 6px 18px rgba(40, 30, 10, .08);
-  --radius: 22px;
+
+  --glas: rgba(255, 255, 255, 0.84);
+  --glas-stark: rgba(255, 255, 255, 0.93);
+  --glas-rand: rgba(255, 255, 255, 0.95);
+  --glas-blur: blur(22px) saturate(170%);
+  --glanz: inset 0 1px 0 rgba(255, 255, 255, 1), inset 0 -1px 0 rgba(60, 50, 20, 0.04);
+  --schatten: 0 1px 2px rgba(40, 30, 10, .05), 0 10px 28px rgba(40, 30, 10, .09);
+  --radius: 26px;
   --rand-seite: max(16px, env(safe-area-inset-left));
 }
 
@@ -25,6 +32,7 @@ html {
 
 body {
   margin: 0;
+  min-height: 100vh;
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
@@ -36,6 +44,20 @@ body {
   overscroll-behavior: none;
 }
 
+/* Weicher Farbverlauf hinter dem Glas */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60% 40% at 0% 0%, rgba(178, 212, 190, .75), transparent 70%),
+    radial-gradient(55% 35% at 100% 12%, rgba(190, 212, 246, .7), transparent 70%),
+    radial-gradient(70% 45% at 85% 100%, rgba(246, 222, 196, .8), transparent 70%),
+    radial-gradient(50% 35% at 0% 85%, rgba(204, 226, 211, .6), transparent 70%),
+    var(--bg);
+}
+
 main {
   max-width: 640px;
   margin: 0 auto;
@@ -44,18 +66,12 @@ main {
 
 h1 {
   font-size: 32px;
-  line-height: 1.2;
+  line-height: 1.15;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   margin: 8px 0 8px;
   hyphens: auto;
   -webkit-hyphens: auto;
-}
-
-h2 {
-  font-size: 26px;
-  line-height: 1.25;
-  margin: 28px 0 12px;
 }
 
 p { margin: 0 0 16px; }
@@ -67,30 +83,48 @@ p { margin: 0 0 16px; }
 
 button { font: inherit; color: inherit; }
 
+/* ---------- Glas-Grundfläche ---------- */
+.glas,
+.kachel,
+.schritt,
+.info-karte,
+.mein-iphone {
+  background: var(--glas);
+  -webkit-backdrop-filter: var(--glas-blur);
+  backdrop-filter: var(--glas-blur);
+  border: 1px solid var(--glas-rand);
+  box-shadow: var(--glanz), var(--schatten);
+}
+
 /* ---------- Knöpfe ---------- */
 .knopf {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   width: 100%;
   min-height: 64px;
-  padding: 14px 20px;
-  border: 0;
-  border-radius: 18px;
-  background: var(--akzent);
+  padding: 14px 22px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--akzent-hell), var(--akzent) 55%, #1A54BE);
   color: #fff;
   font-weight: 700;
   font-size: 22px;
   cursor: pointer;
   text-align: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -2px 6px rgba(0, 0, 0, .12), 0 8px 20px rgba(31, 95, 209, .3);
 }
 .knopf:active { background: var(--akzent-druck); transform: scale(.98); }
 
 .knopf.zweit {
-  background: var(--flaeche);
+  background: var(--glas-stark);
+  -webkit-backdrop-filter: var(--glas-blur);
+  backdrop-filter: var(--glas-blur);
   color: var(--akzent);
   border: 2px solid var(--akzent);
+  box-shadow: var(--glanz), var(--schatten);
 }
 .knopf.zweit:active { background: #EEF3FC; }
 
@@ -98,30 +132,59 @@ button { font: inherit; color: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 64px;
-  min-width: 140px;
-  padding: 10px 24px 10px 16px;
-  border: 0;
-  border-radius: 18px;
-  background: var(--akzent);
+  min-height: 60px;
+  min-width: 150px;
+  padding: 10px 26px 10px 16px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--akzent-hell), var(--akzent) 55%, #1A54BE);
   color: #fff;
   font-weight: 700;
   font-size: 24px;
   cursor: pointer;
-  margin-bottom: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -2px 6px rgba(0, 0, 0, .12), 0 8px 20px rgba(31, 95, 209, .3);
 }
 .zurueck:active { background: var(--akzent-druck); transform: scale(.98); }
 .zurueck svg { width: 28px; height: 28px; flex: none; }
 
-/* Leiste oben bleibt beim Scrollen sichtbar */
+/* Glas-Leiste oben bleibt beim Scrollen sichtbar */
 .kopf {
   position: sticky;
   top: 0;
   z-index: 5;
-  background: var(--bg);
   margin: calc(-1 * (env(safe-area-inset-top) + 16px)) calc(-1 * var(--rand-seite)) 0;
-  padding: calc(env(safe-area-inset-top) + 12px) var(--rand-seite) 8px;
+  padding: calc(env(safe-area-inset-top) + 12px) var(--rand-seite) 12px;
+  background: rgba(251, 247, 240, .72);
+  -webkit-backdrop-filter: var(--glas-blur);
+  backdrop-filter: var(--glas-blur);
+  border-bottom: 1px solid rgba(255, 255, 255, .7);
+  box-shadow: 0 6px 18px rgba(40, 30, 10, .06);
 }
+
+/* ---------- Startseite ---------- */
+.kopf-start {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 8px 0 24px;
+}
+.kopf-start h1 { margin: 0 0 4px; font-size: 30px; }
+.app-logo {
+  width: 64px;
+  height: 64px;
+  flex: none;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(23, 87, 224, .25), inset 0 0 0 1px rgba(255, 255, 255, .4);
+}
+
+.mein-iphone {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+}
+.mein-iphone .handy { width: 40px; height: 70px; }
 
 /* ---------- Kachel-Raster ---------- */
 .raster {
@@ -143,20 +206,18 @@ button { font: inherit; color: inherit; }
   height: 100%;
   min-height: 60px;
   padding: 16px 10px 18px;
-  border: 2px solid transparent;
   border-radius: var(--radius);
-  background: var(--flaeche);
-  box-shadow: var(--schatten);
   cursor: pointer;
   text-align: center;
+  transition: transform .12s ease;
 }
-.kachel:active { transform: scale(.97); border-color: var(--akzent); }
+.kachel:active { transform: scale(.97); box-shadow: var(--glanz), 0 0 0 3px var(--akzent); }
 
 .kachel-bild {
   width: 100%;
-  max-width: 120px;
+  max-width: 116px;
   aspect-ratio: 1;
-  border-radius: 20px;
+  border-radius: 24px;
   object-fit: cover;
   display: block;
 }
@@ -165,10 +226,13 @@ button { font: inherit; color: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--salbei);
+  background:
+    radial-gradient(80% 60% at 30% 15%, rgba(255, 255, 255, .85), transparent 60%),
+    linear-gradient(160deg, var(--salbei-hell), var(--salbei) 60%, #C9DCCF);
   color: var(--salbei-dunkel);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -2px 6px rgba(47, 74, 60, .08), 0 4px 10px rgba(47, 74, 60, .1);
 }
-.platzhalter svg { width: 55%; height: 55%; }
+.platzhalter svg { width: 52%; height: 52%; }
 
 .kachel-text {
   font-size: 22px;
@@ -189,23 +253,11 @@ button { font: inherit; color: inherit; }
 /* iPhone-Zeichnungen in den Auswahl-Kacheln */
 .handy { width: 64px; height: 112px; display: block; }
 
-/* ---------- Gruppen-Überschriften bei der Auswahl ---------- */
-.gruppe-titel {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--salbei-dunkel);
-  background: var(--salbei);
-  border-radius: 14px;
-  padding: 10px 16px;
-  margin: 28px 0 14px;
-}
-
 /* ---------- Anleitung ---------- */
 .schritte {
   list-style: none;
   margin: 16px 0 0;
   padding: 0;
-  counter-reset: schritt;
 }
 
 .schritt {
@@ -213,9 +265,8 @@ button { font: inherit; color: inherit; }
   grid-template-columns: 52px 1fr;
   gap: 14px;
   align-items: start;
-  background: var(--flaeche);
+  background: var(--glas-stark);
   border-radius: var(--radius);
-  box-shadow: var(--schatten);
   padding: 18px 16px;
   margin-bottom: 16px;
 }
@@ -224,13 +275,14 @@ button { font: inherit; color: inherit; }
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: var(--salbei);
+  background: linear-gradient(180deg, #F2F7F3, var(--salbei));
   color: var(--salbei-dunkel);
   font-weight: 800;
   font-size: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: inset 0 1px 0 #fff, 0 2px 6px rgba(47, 74, 60, .15);
 }
 
 .schritt-text { padding-top: 8px; }
@@ -242,8 +294,34 @@ button { font: inherit; color: inherit; }
   max-width: 320px;
   margin: 6px auto 0;
   display: block;
-  border-radius: 16px;
-  background: var(--bg);
+  border-radius: 20px;
+}
+
+/* Gezeichnete iPhone-Bildschirme */
+.zeichnung {
+  max-width: none;
+  padding: 14px 8px 10px;
+  background:
+    radial-gradient(70% 60% at 50% 0%, rgba(255, 255, 255, .9), transparent 70%),
+    linear-gradient(180deg, #F3F6F2, #E6EEE8);
+  box-shadow: inset 0 1px 0 #fff, inset 0 0 0 1px rgba(47, 74, 60, .06);
+  display: flex;
+  justify-content: center;
+}
+.z-svg { display: block; width: 100%; height: auto; max-width: 290px; overflow: hidden; }
+.z-svg.z-ganz { max-width: 230px; }
+
+.z-puls {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: z-puls 1.6s ease-out infinite;
+}
+@keyframes z-puls {
+  0% { transform: scale(.7); opacity: .9; }
+  100% { transform: scale(2); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .z-puls { animation: none; opacity: 0; }
 }
 
 .ende { margin-top: 24px; }
@@ -265,24 +343,9 @@ button { font: inherit; color: inherit; }
 }
 
 .info-karte {
-  background: var(--flaeche);
   border-radius: var(--radius);
-  box-shadow: var(--schatten);
   padding: 18px 18px 4px;
   margin-bottom: 16px;
 }
 
 .unten { margin-top: 36px; display: grid; gap: 16px; }
-
-.link-knopf {
-  background: none;
-  border: 0;
-  color: var(--akzent);
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  min-height: 60px;
-  padding: 8px 0;
-  cursor: pointer;
-  text-align: left;
-}

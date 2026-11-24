@@ -100,6 +100,10 @@ const SYMBOLE = {
   foto: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5L5 20"/>',
   kamera: '<path d="M4 7h3l2-3h6l2 3h3a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="4"/>',
   uhr: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  muell: '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 14h10l1-14"/><path d="M10 11v6M14 11v6"/>',
+  schrift: '<path d="M3 19 8 6l5 13"/><path d="M4.8 14.5h6.4"/><path d="M14 19l3.5-9 3.5 9"/><path d="M15.3 16h4.4"/>',
+  lautsprecher: '<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 9a4 4 0 0 1 0 6"/><path d="M19 6.5a7.5 7.5 0 0 1 0 11"/>',
+  sonne: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>',
 };
 
 function symbolSvg(name) {
@@ -189,11 +193,18 @@ function zeigeStart() {
         el("span", { class: "kachel-text" }, a.titel))));
 
   zeige(
-    el("h1", {}, "Was möchten Sie wissen?"),
-    el("p", { class: "unterzeile" }, "Tippen Sie auf ein Bild."),
+    el("header", { class: "kopf-start" },
+      el("img", { class: "app-logo", src: "app-icon/icon-180.png", alt: "" }),
+      el("div", {},
+        el("h1", {}, "Was möchten Sie wissen?"),
+        el("p", { class: "unterzeile", style: "margin:0" }, "Tippen Sie auf ein Bild."))),
     el("ul", { class: "raster" }, kacheln),
     el("div", { class: "unten" },
-      el("p", { class: "unterzeile", style: "margin:0" }, "Ihr iPhone: " + modell.name),
+      el("div", { class: "mein-iphone" },
+        el("span", { html: handySvg(modell.gruppe) }),
+        el("div", {},
+          el("div", { class: "kachel-klein", style: "margin:0" }, "Ihr iPhone"),
+          el("div", { class: "kachel-text" }, modell.name))),
       el("button", { class: "knopf zweit", onclick: zeigeAuswahl }, "Anderes iPhone wählen")),
   );
 }
@@ -203,9 +214,22 @@ function schrittFuerGruppe(schritt, gruppe) {
   if (Array.isArray(schritt.nur) && !schritt.nur.includes(gruppe)) return null;
   const variante = schritt[gruppe];
   if (variante && typeof variante === "object") {
-    return { text: variante.text || schritt.text, bild: variante.bild || schritt.bild };
+    return {
+      text: variante.text || schritt.text,
+      bild: variante.bild || (variante.zeichnung ? null : schritt.bild),
+      zeichnung: variante.zeichnung || (variante.bild ? null : schritt.zeichnung),
+    };
   }
-  return { text: variante || schritt.text, bild: schritt.bild };
+  return { text: variante || schritt.text, bild: schritt.bild, zeichnung: schritt.zeichnung };
+}
+
+function schrittBild(s) {
+  if (s.zeichnung && typeof ZEICHNUNG !== "undefined") {
+    const svg = ZEICHNUNG.render(s.zeichnung, modell.gruppe);
+    if (svg) return el("div", { class: "schritt-bild zeichnung", html: svg });
+  }
+  if (s.bild) return el("img", { class: "schritt-bild", src: s.bild, alt: "" });
+  return null;
 }
 
 function zeigeAnleitung(a) {
@@ -217,7 +241,7 @@ function zeigeAnleitung(a) {
     el("li", { class: "schritt" },
       el("div", { class: "nummer", "aria-hidden": "true" }, String(i + 1)),
       el("div", { class: "schritt-text" }, el("p", {}, s.text)),
-      s.bild ? el("img", { class: "schritt-bild", src: s.bild, alt: "" }) : null));
+      schrittBild(s)));
 
   zeige(
     zurueckKnopf(zeigeStart),

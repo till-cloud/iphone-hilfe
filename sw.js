@@ -2,7 +2,7 @@
    Strategie: sofort aus dem Speicher antworten, im Hintergrund neu laden.
    Neue Anleitungen erscheinen damit spätestens beim zweiten Öffnen.
    Bei größeren Änderungen VERSION hochzählen. */
-const VERSION = "v1";
+const VERSION = "v2";
 const CACHE = "iphone-hilfe-" + VERSION;
 
 const DATEIEN = [
@@ -10,13 +10,12 @@ const DATEIEN = [
   "index.html",
   "style.css",
   "app.js",
+  "zeichnungen.js",
   "anleitungen.js",
   "manifest.webmanifest",
   "app-icon/icon-180.png",
   "app-icon/icon-192.png",
   "app-icon/icon-512.png",
-  "bilder/home-taste.svg",
-  "bilder/wischen-hoch.svg",
 ];
 
 self.addEventListener("install", (e) => {

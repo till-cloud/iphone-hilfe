@@ -4,6 +4,7 @@ Anleitungs-Web-App (PWA) für die Großeltern: wie Dinge auf dem iPhone gehen. R
 
 ## Dateien
 - `anleitungen.js`: alle Anleitungen (einzige Datei zum Erweitern, Format oben in der Datei erklärt)
+- `zeichnungen.js`: gezeichnete iPhone-Bildschirme (SVG-Szenen, Rahmen passt sich der Gruppe an), Namensliste oben in der Datei
 - `app.js`: iPhone-Auswahl (Serien → Gruppe home/kerbe/insel), Startseite, Anleitungsansicht
 - `style.css`: Farben Creme #FBF7F0 / Salbei #DCE8E0 / Blau #1F5FD1, immer hell, Schrift ≥ 22px
 - `sw.js`: Cache (stale-while-revalidate). Neue feste Dateien in `DATEIEN` eintragen, bei großen Änderungen `VERSION` hochzählen
@@ -14,6 +15,6 @@ Anleitungs-Web-App (PWA) für die Großeltern: wie Dinge auf dem iPhone gehen. R
 `python -m http.server 8765` und http://localhost:8765 öffnen, Viewport 375x667 (iPhone SE).
 
 ## Stand
-- Fertig: Auswahl, Startseite, 4 Anleitungen (WhatsApp-Chat, Kontakt, E-Mail mit Apple Mail, Zurück zum Start), Platzhalter-Symbole
+- Fertig: Auswahl, Startseite, 10 Anleitungen mit Zeichnungen, dezenter Liquid-Glass-Look
 - Offen: Inhalte vom Nutzer prüfen lassen; Kachel-Bilder aus /icons; GitHub-Pages-Deploy; Test auf echtem iPhone
 - iPhone Duo (Falt-iPhone) bewusst weggelassen
